@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class House extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'address',
+        'date',
+        'time',
+        'price_buy',
+        'price_rent',
+        'country',
+    ];
+    public function users() {
+        return $this->belongsToMany(User::class);
+    }
 }
