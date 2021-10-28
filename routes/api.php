@@ -1,29 +1,21 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HouseController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-Route::group([
+Route::post('registration', [AuthController::class, 'customRegistration']);
+Route::post('signout', [AuthController::class, 'signOut']);
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
+Route::post('auth/login', [AuthController::class, 'login']);
+Route::group(['middleware' => ['apiJWT']], function (){
+    Route::get('/users/houses', [HouseController::class, 'userHouses']);
+    Route::prefix('houses')->group(function () {
+        Route::get('/', [HouseController::class, 'index']);
+        Route::post('/', [HouseController::class, 'store']);
+        Route::get('/{house}', [HouseController::class, 'show']);
+        Route::put('/{house}', [HouseController::class, 'update']);
+        Route::delete('/{house}', [HouseController::class, 'destroy']);
+    });
 });
