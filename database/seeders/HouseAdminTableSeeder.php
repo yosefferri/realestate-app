@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
+
+use App\Models\House;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class HouseAdminTableSeeder extends Seeder
 {
@@ -13,6 +17,13 @@ class HouseAdminTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        for ($i = 0; $i < 20; $i++) {
+        DB::table('house_user')->insert(
+            [
+                'admin_id' => User::select('id')->orderByRaw("RAND()")->first()->id,
+                'house_id' => House::select('id')->orderByRaw("RAND()")->first()->id
+            ]
+        );
+    }
     }
 }
