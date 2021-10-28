@@ -10,6 +10,11 @@ class House extends Model
     use HasFactory;
     protected $fillable = [
         'address',
+        'room',
+        'kitchen',
+        'garage',
+        'bathroom',
+        'TypeContract',
         'date',
         'time',
         'price_buy',
