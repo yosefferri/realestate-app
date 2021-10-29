@@ -26,6 +26,8 @@ class CreateHousesTable extends Migration
                 $table->float('price_rent');
                 $table->date('date');
                 $table->time('time');
+                $table->enum('Status', ['free','sold']);
+                $table->softDeletes();
                 $table->timestamps();
             });
     }
