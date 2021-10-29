@@ -29,7 +29,8 @@ class HouseTableSeeder extends Seeder
                 'TypeContract'=>$faker->numberBetween(1, 3),
                 'country'=>$faker->country(),
                 'date' => $faker->date(),
-                'time' => $faker->time()
+                'time' => $faker->time(),
+                'status' => 1
             ]);
         }
     }
