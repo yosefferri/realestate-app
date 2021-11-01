@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
 /*
     public function __construct()
@@ -17,33 +16,34 @@ class UserController extends Controller
     }
 */
 
-    public function login()
-    {
+    public function login()   {
+    
         $credentials = request(['email', 'password']);
 
-        if (! $token = Auth::attempt($credentials)) {
+        if (  $token = auth('users')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
+        dd('login');
         return $this->respondWithToken($token);
     }
-
-
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
-    public function userRegistration(Request $request)
+    
+    public function adminRegistration(Request $request)
     {  
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
+           
         $data = $request->all();
         $check = $this->create($data);
      }
+
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+
 
     public function logout()
     {
@@ -66,25 +66,4 @@ class UserController extends Controller
             'expires_in' => Auth::factory()->getTTL() * 60
         ]);
     }
-    /*public function authenticate(Request $request)
-    {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
-
-        /** @var User $model 
-        $model = User::query()->where('email', $request->get('email'))->first();
-
-        if(!$model){
-            return back()->with('error', 'Email or password is incorrect');
-        }
-
-        if (!Hash::check($request->get('password'), $model->password)) {
-            return back()->with('error', 'Email or password is incorrect');
-        }
-
-        Auth::guard('admin')->login($model);
-        return response()->json(auth()->user());
-    }*/
 }
