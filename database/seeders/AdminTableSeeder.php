@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use app\models\Admin;
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use Illuminate\Support\Facades\Hash;
