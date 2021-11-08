@@ -21,12 +21,12 @@ class CreateHousesTable extends Migration
                 $table->integer('kitchen');
                 $table->integer('garage');
                 $table->integer('bathroom');
-                $table->enum('TypeContract', ['buy', 'rent','both']);
+                $table->enum('type_contract', ['buy', 'rent','both']);
                 $table->float('price_buy');
                 $table->float('price_rent');
                 $table->date('date');
                 $table->time('time');
-                $table->enum('Status', ['free','sold']);
+                $table->enum('status', ['free','sold']);
                 $table->softDeletes();
                 $table->timestamps();
             });
