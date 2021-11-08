@@ -15,25 +15,28 @@ class House extends Model
         'kitchen',
         'garage',
         'bathroom',
-        'TypeContract',
+        'typeContract',
         'date',
-        'time',
         'price_buy',
         'price_rent',
         'country',
     ];
-    public function users() {
-        return $this->belongsToMany(User::class);
-    }
+    protected $hidden = [
+        'date',
+        'created_at',
+        'updated_at'
+    ];
 
-
+     public function users() {
+         return $this->belongsToMany(User::class);
+     }
+     public function admins() {
+         return $this->belongsToMany(Admin::class);
+     }
 }
+     class SoftDelete extends Model
+     {
+         use SoftDeletes;
+         protected $dates = ['deleted_at'];
+     }
 
-class deleteHouse extends Model
-
-    {
-        use SoftDeletes;
-    
-        protected $dates = ['deleted_at'];
-
-    }
