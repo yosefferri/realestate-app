@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HouseRequest;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\House;
@@ -10,29 +11,24 @@ use Illuminate\Support\Facades\Auth;
 use SoftDeletes;
  
 
-
-
-class HouseController extends Controller
+class HouseController extends Controller implements HouseRequest
 {
+    public function index()
+    {
+        $houses = House::all();
+        return response()->json($houses, 200);
+    }
+
     public function adminHouse()
     {
-       //$authId = House::all();
-
        $admin = Admin::with('houses')->find(Auth::id());
-       //$authId = Auth::id();
        return response()->json($admin->houses, 200);
     }
 
     public function userHouse()
     {
        $user = User::with('houses')->find(Auth::id());
-       //$authId = Auth::id();
        return response()->json($user->houses, 200);
-    }
-    public function index()
-    {
-        $houses = House::all();
-        return response()->json($houses, 200);
     }
 
     public function show(House $house)
@@ -40,11 +36,23 @@ class HouseController extends Controller
         return response()->json($house, 200);
     }
 
-    public function store(Request $request)
-    {
-        //$house = House::create($request->all());
-        $request->only('address','typeContract');
-        return response()->json($request, 201);
+
+    public function store(Request $request){
+                            $data = [
+                                        'address'=> request('address'),
+                                        'room'=>request('room'),
+                                        'kitchen'=>request('kitchen'),
+                                        'garage'=>request('garage'),
+                                        'bathroom'=>request('bathroom'),
+                                        'type_contract'=>request('type_contract'),
+                                        'date'=>request('date'),
+                                        'price_buy'=>request('price_buy'),
+                                        'price_rent'=>request('price_rent'),
+                                        'country'=>request('country'),
+                                ];
+                                            House::create($data);
+                                            HouseRequest::validate($request, $data);
+                                            return response()->json($data, 201);
     }
 
     public function update(Request $request, House $house)
@@ -53,13 +61,11 @@ class HouseController extends Controller
 
         return response()->json($house, 200);
     }
-
-    public function destroy(House $house)
-    {
-        
-        $house->delete();
-
-        return response()->json(null, 204);
-    }
-
+}
+    class DeleteController extends Controller
+{
+        public function forceDelete($delete) 
+        {
+        $delete->forceDelete();
+        }
 }
