@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
 /*
     public function __construct()
@@ -21,13 +20,12 @@ class AdminController extends Controller
         $credentials = request(['email', 'password']);
 
         if (  $token = auth('users')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+          return response()->json(['error' => 'Unauthorized'], 401);
         }
-        dd('login');
-        return $this->respondWithToken($token);
+               return $this->respondWithToken($token);
     }
     
-    public function adminRegistration(Request $request)
+    public function userRegistration(Request $request)
     {  
         $request->validate([
             'name' => 'required',
